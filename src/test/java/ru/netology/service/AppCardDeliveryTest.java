@@ -1,8 +1,6 @@
 package ru.netology.service;
 
 import com.codeborne.selenide.Condition;
-import io.github.bonigarcia.wdm.WebDriverManager;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.Keys;
 
@@ -14,10 +12,6 @@ import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.open;
 
 public class AppCardDeliveryTest {
-    @BeforeAll
-    public static void setupAll() {
-        WebDriverManager.chromedriver().setup();
-    }
 
     private String generate(int addDays, String pattern) {
         return LocalDate.now().plusDays(addDays).format(DateTimeFormatter.ofPattern(pattern));
@@ -32,10 +26,10 @@ public class AppCardDeliveryTest {
         $("[data-test-id='date'] input").sendKeys(date);
         $("[data-test-id='name'] input").setValue("Иванов Иван");
         $("[data-test-id='phone'] input").setValue("+79110000000");
-        $("data-test-id='agreement'").click();
+        $("[data-test-id=agreement]").click();
         $("button.button").click();
         $(".notification__content")
-                .shouldBe(Condition.visible, Duration.ofSeconds(90))
+                .shouldBe(Condition.visible, Duration.ofSeconds(15))
                 .shouldHave(Condition.exactText("Встреча успешно забронирована на " + date));
 
     }
